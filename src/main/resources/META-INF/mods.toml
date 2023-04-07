@@ -1,0 +1,26 @@
+
+modLoader="javafml"
+loaderVersion="[44,)"
+license="All rights reserved"
+
+[[mods]]
+modId="duplicateondamage"
+version="0.1"
+displayName="Duplicate on Damage"
+authors="Julian Wogersien (coolian)"
+description='''
+Duplicates all entities close to you when you take damage.
+'''
+
+[[dependencies.duplicateondamage]]
+    modId="forge"
+    mandatory=true
+    versionRange="[44,)"
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.duplicateondamage]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.19.3,1.20)"
+    ordering="NONE"
+    side="BOTH"
