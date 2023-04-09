@@ -40,11 +40,6 @@ public class DuplicateOnDamage
                 if (!(e instanceof Player)) {
                     LivingEntity copy = (LivingEntity) e.getType().create(e.getCommandSenderWorld());
                     UUID uuid = copy.getUUID();
-                    copy.setPos(e.getX(), e.getY(), e.getZ());
-                    copy.setHealth(e.getHealth());
-                    copy.setDeltaMovement(e.getDeltaMovement());
-                    copy.setCustomName(e.getCustomName());
-                    copy.setCustomNameVisible(e.isCustomNameVisible());
                     copy.deserializeNBT(e.serializeNBT());
                     copy.setUUID(uuid);
                     event.getEntity().getCommandSenderWorld().addFreshEntity(copy);
