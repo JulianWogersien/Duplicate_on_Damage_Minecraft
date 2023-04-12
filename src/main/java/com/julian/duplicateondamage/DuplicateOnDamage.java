@@ -7,35 +7,27 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
-import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
 @Mod(DuplicateOnDamage.MODID)
 public class DuplicateOnDamage
 {
     public static final String MODID = "duplicateondamage";
 
+    public static final Config config = new Config();
+
     public DuplicateOnDamage()
     {
-        IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+        ModLoadingContext.get().registerConfig(net.minecraftforge.fml.config.ModConfig.Type.SERVER, config.spec);
 
-        // Register the commonSetup method for modloading
-        modEventBus.addListener(this::commonSetup);
-
-        // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
-    }
-
-    private void commonSetup(final FMLCommonSetupEvent event)
-    {
         MinecraftForge.EVENT_BUS.addListener(DuplicateOnDamage::LivingHurtEvent);
     }
 
     private static void LivingHurtEvent(LivingHurtEvent event) {
         if (event.getEntity() instanceof Player) {
-            List<LivingEntity> entities = event.getEntity().getCommandSenderWorld().getEntitiesOfClass(LivingEntity.class, event.getEntity().getBoundingBox().inflate(150.0d, 150.0d, 150.0d));
+            List<LivingEntity> entities = event.getEntity().getCommandSenderWorld().getEntitiesOfClass(LivingEntity.class, event.getEntity().getBoundingBox().inflate(config.holder.radiusX.get(), config.holder.radiusY.get(), config.holder.radiusZ.get()));
             for (LivingEntity e : entities) {
                 if (!(e instanceof Player)) {
                     LivingEntity copy = (LivingEntity) e.getType().create(e.getCommandSenderWorld());
